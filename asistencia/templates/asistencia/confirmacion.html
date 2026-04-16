@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Asistencia registrada{% endblock %}
+
+{% block content %}
+    <section class="card confirmation">
+        <span class="eyebrow">Proceso completado</span>
+        <h1>Registro exitoso</h1>
+        <p>La asistencia fue almacenada correctamente en la base de datos.</p>
+        <a class="button" href="{% url 'asistencia:registro' %}">Registrar otra asistencia</a>
+    </section>
+{% endblock %}

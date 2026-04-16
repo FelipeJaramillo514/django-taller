@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Solicitud enviada{% endblock %}
+
+{% block content %}
+    <section class="card confirmation">
+        <span class="eyebrow">Proceso completado</span>
+        <h1>Solicitud registrada</h1>
+        <p>La solicitud fue enviada y quedó almacenada correctamente.</p>
+        <a class="button secondary" href="{% url 'solicitudes:formulario' %}">Crear otra solicitud</a>
+    </section>
+{% endblock %}
