@@ -1,5 +1,4 @@
 import shutil
-import tempfile
 from pathlib import Path
 
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -9,15 +8,20 @@ from django.urls import reverse
 from .models import Solicitud
 
 
-TEST_MEDIA_ROOT = tempfile.mkdtemp(prefix="test_media_", dir=Path(__file__).resolve().parent.parent)
+TEST_MEDIA_ROOT = Path(__file__).resolve().parent.parent / "media" / "test_uploads"
 
 
 @override_settings(MEDIA_ROOT=TEST_MEDIA_ROOT)
 class SolicitudViewsTests(TestCase):
     @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        TEST_MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
+
+    @classmethod
     def tearDownClass(cls):
-        super().tearDownClass()
         shutil.rmtree(TEST_MEDIA_ROOT, ignore_errors=True)
+        super().tearDownClass()
 
     def test_muestra_el_formulario_de_solicitudes(self):
         response = self.client.get(reverse("solicitudes:formulario"))
@@ -82,4 +86,3 @@ class SolicitudViewsTests(TestCase):
         self.assertContains(response, "Adjunta un archivo PDF, DOC, DOCX, PNG o JPG.")
         self.assertEqual(Solicitud.objects.count(), 0)
 
-# Create your tests here.
