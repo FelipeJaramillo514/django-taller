@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de asistencia</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --fondo: #f4f1ea;
+            --tarjeta: #fffdf8;
+            --principal: #235789;
+            --texto: #1f2933;
+            --borde: #d9d1c5;
+            --exito: #2e7d32;
+            --error: #b3261e;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #f8f4ec 0%, #edf4ff 100%);
+            color: var(--texto);
+        }
+
+        main {
+            max-width: 780px;
+            margin: 40px auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--tarjeta);
+            border: 1px solid var(--borde);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 24px 60px rgba(35, 87, 137, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        form {
+            display: grid;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid var(--borde);
+            border-radius: 12px;
+            font: inherit;
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .checkbox input {
+            width: auto;
+        }
+
+        .checkbox label {
+            margin: 0;
+        }
+
+        .errorlist {
+            margin: 8px 0 0;
+            padding-left: 18px;
+            color: var(--error);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 22px;
+            background: var(--principal);
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        @media (max-width: 640px) {
+            main {
+                margin: 20px auto;
+                padding: 16px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="card">
+            <h1>Registro de asistencia</h1>
+            <p>Completa el siguiente formulario para registrar la asistencia del estudiante.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    {{ form.non_field_errors }}
+                {% endif %}
+
+                {% for field in form %}
+                    <div>
+                        {% if field.name == "presente" %}
+                            <div class="checkbox">
+                                {{ field }}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                        {% else %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+
+                <div class="actions">
+                    <button type="submit">Guardar asistencia</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
